@@ -1,32 +1,34 @@
 'use strict';
-const assert = require('assert');
+// const assert = require('assert');
 
 class BankAccount {
   constructor(accountNumber, owner) {
     this.accountNumber = accountNumber;
     this.owner = owner;
-    this.transaction = [100, -8, -25.36, 250, ];
+    this.transaction = [];
   }
 
-  balance (){
+  // 100,20,50,22.30,4
+  // 100, -8, -25.36, 250, 
+  balance(){
 
     let currentBalance = 0;
 
-    for(let i=0; i < this.transaction.length; i++) {
+    for(let i=0; i < this.transactions.length; i++) {
         currentBalance += this.transaction[i].amount; 
     }
 
-    console.log()
+    console.log(currentBalance)
     return currentBalance;
   }
 
-  deposit(amt){
+  deposit(amt) {
 
     if(amt >= 0){
 
-        let newDeposit = new transaction(amt, 'Deposit', this.date);
+        let newDeposit = new Transaction(amt, 'Deposit', this.date);
 
-        this.transaction.push(newDeposit);
+        this.transactions.push(newDeposit);
         console.log("Deposit successful");
     } else {
         console.log("A deposit must be at least a penny");
@@ -41,16 +43,16 @@ class BankAccount {
         if(newCharge > this.balance) {
             console.log("Insufficient funds");
         } else {
-            this.transaction.push(newCharge);
+            this.transactions.push(newCharge);
         }
 
 
   } 
 }
 
-class transaction {
+class Transaction {
     constructor (amount, payee) {
-        this.date = newDate();
+        this.date = new Date();
         this.amount = amount;
         this.payee = payee;
     }
@@ -59,25 +61,30 @@ class transaction {
 const assert = require('assert');
 
 if (typeof describe === 'function'){
-    describe('BankAccount', function(){
-      it('bank account should have an account number, owner\'s name, and a transaction list', function(){
+  describe('BankAccount', function(){
+    it("bank account should have an account number, owner's name, and a transaction list", function(){ 
+      
+      const BankAccount1 = new BankAccount('12345', 'Nate');
+      assert.equal(BankAccount1.accountNumber, '12345');
+      assert.equal( BankAccount1.owner, 'Nate');
+      // assert.equal(BankAccount1.transactions.length, 0);
         
-        const BankAccount1 = new BankAccount('12345', 'Nate');
-        assert.equal(BankAccount.accountNumber, '12345');
-        assert.equal(BankAccount.owner, 'Nate');
-        assert.equal(BankAccount.transactions.length, 0);
-        
-      }); // end of Test #1
-  
-    //   it('can enter a ship', function(){
-    //     // this creates a new Ship. Can you build a class that can be called so that this Ship can be built?
-    //     let mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit');
-    //     const crewMember1 = new CrewMember('Rick Martinez', 'pilot', 'chemistry');
-    //     crewMember1.enterShip(mav);
-    //     assert.equal(crewMember1.ship, mav);
-    //     assert.equal(mav.crew.length, 1);
-    //     assert.equal(mav.crew[0], crewMember1);
-    //   }); // end of Test #2
-    // }); 
+    });
+  }); // end of testing Bank Account
+      
+  describe('Transaction', function(){
+    it('should create a transaction correctly for a deposit', function(){
+      const newDeposit = new Transaction(100, 'Deposit')
+      assert.equal(newDeposit.amount, 100);
+      assert.equal(newDeposit.payee, 'Deposit');
+          
+    }); // end of Test !
 
+    it('should create a transaction correctly for a charge', function(){
+      const newCharge1 = new Transaction(50, 'HEB')
+      assert.equal(newCharge1.amount, 50);
+      assert.equal(newCharge1.payee, 'HEB');
+          
+    }); // end of Test 2
+  }); // end of testing Transactions 
 } // end of Tests! <3
